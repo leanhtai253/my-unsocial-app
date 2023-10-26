@@ -34,9 +34,11 @@
   },
   "lint-staged": {
     "src/**/*.ts": [
-      "npm run prettier", "npm run lint", "git add"
-    ]                                        ,
-  }                                              ,
+      "npm run prettier",
+      "npm run lint",
+      "git add"
+    ]
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
