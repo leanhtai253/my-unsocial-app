@@ -7,10 +7,10 @@ const validators = [body('email').isEmail().withMessage('Invalid email format.')
 
 const signUpRouter = app.post('/api/auth/signup', validators, (req: Request, res: Response) => {
   const errors = validationResult(req);
-  if (errors.isEmpty()) {
-    res.status(201).send();
-  } else {
+  if (!errors.isEmpty()) {
     res.status(422).send();
+  } else {
+    res.status(201).send();
   }
 });
 export default signUpRouter;
