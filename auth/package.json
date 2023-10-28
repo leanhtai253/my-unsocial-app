@@ -5,6 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "lint": "eslint .",
+    "lint:staged": "lint-staged",
     "prettier": "prettier --check ./src/**/*.ts",
     "prettier:fix": "prettier --write ./src/**/*.ts",
     "start:dev": "nodemon src/index.ts",
@@ -46,8 +47,7 @@
     "src/**/*.ts": [
       "npm run prettier:fix",
       "npm run lint",
-      "npm run test",
-      "git add"
+      "npm run test"
     ]
   },
   "husky": {
