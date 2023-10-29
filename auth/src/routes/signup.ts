@@ -12,12 +12,17 @@ const signUpRouter = express.Router();
  */
 
 const validators = [
-  body('email').isEmail().withMessage('Invalid email format.'),
-  body('password').isLength({ max: 32 }).isStrongPassword({
-    minLength: 8,
-    minLowercase: 1,
-    minUppercase: 1,
-    minNumbers: 1
+  body('email').isEmail()
+      .withMessage('Invalid email format.')
+      .normalizeEmail({gmail_remove_dots: false}),
+  body('password')
+    .trim()
+    .isLength({ min: 8, max: 32 })
+    .escape()
+    .isStrongPassword({
+      minLowercase: 1,
+      minUppercase: 1,
+      minNumbers: 1
   })
 ];
 
@@ -28,7 +33,7 @@ signUpRouter.post(SIGN_UP_ROUTE, validators, (req: Request, res: Response) => {
   if (!errors.isEmpty()) {
     res.status(422).send();
   } else {
-    res.status(201).send();
+    res.status(201).send({email: req.body.email });
   }
 });
 
