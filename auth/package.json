@@ -10,8 +10,8 @@
     "prettier:fix": "prettier --write ./src/**/*.ts",
     "start:dev": "nodemon src/index.ts",
     "start": "echo starting prod server",
-    "test": "jest",
-    "test:watch": "jest --watchAll --no-cache"
+    "test": "jest --verbose",
+    "test:watch": "jest --verbose --watchAll --no-cache"
   },
   "jest": {
     "testEnvironment": "node",

@@ -1,5 +1,3 @@
-import signUpRouter from './signup';
+export * from './route-defs';
 
-export default {
-  signUpRouter
-};
+export { default as signUpRouter } from './signup';
