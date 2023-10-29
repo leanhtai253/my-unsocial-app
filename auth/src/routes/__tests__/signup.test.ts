@@ -1,6 +1,6 @@
 import request from 'supertest';
 import app from '../../app';
-import {SIGN_UP_ROUTE} from "../route-defs";
+import { SIGN_UP_ROUTE } from '../route-defs';
 import { User } from '../../models';
 
 /**
@@ -26,18 +26,18 @@ describe('Test validity of email input', () => {
  */
 
 describe('Test sanitization of email input', () => {
-  const normalizedEmail = "oliver.le@hotmail.com";
+  const normalizedEmail = 'oliver.le@hotmail.com';
   it('Should not contain upper-case letter(s) in the domain', async () => {
     const response = await request(app)
-        .post(SIGN_UP_ROUTE)
-        .send({
-          email: 'oliver.le@HOTMAIL.COM',
-          password: 'Admin@123'
-        })
-        .expect(201);
+      .post(SIGN_UP_ROUTE)
+      .send({
+        email: 'oliver.le@HOTMAIL.COM',
+        password: 'Admin@123'
+      })
+      .expect(201);
     expect(response.body.email).toEqual(normalizedEmail);
-  })
-})
+  });
+});
 
 /**
  * Valid password conditions:
@@ -118,7 +118,7 @@ describe('Test saving user into the database', () => {
     const retrievedEmail = retrievedUser ? retrievedUser.email : '';
     expect(retrievedUser).toBeDefined();
     expect(retrievedEmail).toEqual(user.email);
-  })
+  });
 
   it('Should not save duplicate user into the database', async () => {
     /**
@@ -128,8 +128,8 @@ describe('Test saving user into the database', () => {
      */
     await request(app).post(SIGN_UP_ROUTE).send(user).expect(201);
     await request(app).post(SIGN_UP_ROUTE).send(user).expect(422);
-  })
-})
+  });
+});
 
 /**
  * Available methods to sign up route:
@@ -165,4 +165,3 @@ describe('Test saving user into the database', () => {
 //     await request(app).patch(baseUrl).expect(405);
 //   });
 // });
-

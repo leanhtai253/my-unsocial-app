@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 export type UserDocument = mongoose.Document & {
-    email: string,
-    password: string
+  email: string;
+  password: string;
 };

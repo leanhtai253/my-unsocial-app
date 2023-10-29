@@ -4,20 +4,23 @@ import mongoose from 'mongoose';
 let mongoMemoryServer: MongoMemoryServer;
 
 beforeAll(async () => {
-    mongoMemoryServer = await MongoMemoryServer.create();
-    const uri = mongoMemoryServer.getUri();
+  mongoMemoryServer = await MongoMemoryServer.create();
+  const uri = mongoMemoryServer.getUri();
 
-    await mongoose.connect(uri);
-})
+  await mongoose.connect(uri);
+});
 
-afterEach(async () => {
-    const allCollections = await mongoose.connection.db.collections();
-    for (let collection of allCollections) {
-        await collection.deleteMany({});
-    }
-})
+beforeEach(async () => {
+  console.log('After each');
+  const allCollections = await mongoose.connection.db.collections();
+  
+  allCollections.forEach(async (collection) => {
+    await collection.deleteMany({});
+  });
+});
 
 afterAll(async () => {
-    await mongoose.connection.close();
-    await mongoMemoryServer.stop()
-;})
+  console.log('After all');
+  await mongoose.connection.close();
+  await mongoMemoryServer.stop();
+});

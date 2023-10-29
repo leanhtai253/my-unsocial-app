@@ -13,17 +13,14 @@ const signUpRouter = express.Router();
  */
 
 const validators = [
-  body('email').isEmail()
-      .withMessage('Invalid email format.')
-      .normalizeEmail({gmail_remove_dots: false}),
-  body('password')
-    .trim()
-    .isLength({ min: 8, max: 32 })
-    .escape()
-    .isStrongPassword({
-      minLowercase: 1,
-      minUppercase: 1,
-      minNumbers: 1
+  body('email')
+    .isEmail()
+    .withMessage('Invalid email format.')
+    .normalizeEmail({ gmail_remove_dots: false }),
+  body('password').trim().isLength({ min: 8, max: 32 }).escape().isStrongPassword({
+    minLowercase: 1,
+    minUppercase: 1,
+    minNumbers: 1
   })
 ];
 
@@ -37,13 +34,13 @@ signUpRouter.post(SIGN_UP_ROUTE, validators, async (req: Request, res: Response)
     const userToSave = req.body;
 
     // Check if user exists
-    const existingUser = await User.findOne({email: userToSave.email});
-    
+    const existingUser = await User.findOne({ email: userToSave.email });
+
     if (existingUser) {
       return res.sendStatus(422);
     }
 
-    const newUser = await User.create({email: userToSave.email, password: userToSave.password});
+    const newUser = await User.create({ email: userToSave.email, password: userToSave.password });
 
     return res.status(201).send({ email: newUser.email });
   }
