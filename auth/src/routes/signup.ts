@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
 import { SIGN_UP_ROUTE } from './route-defs';
 import { handleMethodNotAllowed } from './utils';
+import { User } from '../models';
 
 const signUpRouter = express.Router();
 
@@ -28,12 +29,23 @@ const validators = [
 
 // POST METHOD
 
-signUpRouter.post(SIGN_UP_ROUTE, validators, (req: Request, res: Response) => {
+signUpRouter.post(SIGN_UP_ROUTE, validators, async (req: Request, res: Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     res.status(422).send();
   } else {
-    res.status(201).send({email: req.body.email });
+    const userToSave = req.body;
+
+    // Check if user exists
+    const existingUser = await User.findOne({email: userToSave.email});
+    
+    if (existingUser) {
+      return res.sendStatus(422);
+    }
+
+    const newUser = await User.create({email: userToSave.email, password: userToSave.password});
+
+    return res.status(201).send({ email: newUser.email });
   }
 });
 
