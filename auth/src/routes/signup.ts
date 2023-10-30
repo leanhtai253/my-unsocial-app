@@ -3,7 +3,7 @@ import { body, validationResult } from 'express-validator';
 import { SIGN_UP_ROUTE } from './route-defs';
 import { handleMethodNotAllowed } from './utils';
 import { User } from '../models';
-import { InvalidInput } from '../error/invalid-input';
+import { InvalidInput } from '../error';
 
 const signUpRouter = express.Router();
 
@@ -30,7 +30,7 @@ const validators = [
 signUpRouter.post(SIGN_UP_ROUTE, validators, async (req: Request, res: Response) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    throw new InvalidInput('Input does not satisfy validation criteria.');
+    throw new InvalidInput();
   } else {
     const userToSave = req.body;
 

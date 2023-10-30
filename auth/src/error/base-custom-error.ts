@@ -1,12 +1,12 @@
 export abstract class BaseCustomError extends Error {
-    abstract statusCode: number;
+  protected abstract statusCode: number;
 
-    constructor(message?: string) {
-        super(message);
-        Object.setPrototypeOf(this, BaseCustomError.prototype);
-    }
+  constructor(message?: string) {
+    super(message);
+    Object.setPrototypeOf(this, BaseCustomError.prototype);
+  }
 
-    abstract getStatusCode(): number;
+  abstract getStatusCode(): number;
 
-    abstract serializeErrorOutput(): unknown;
+  abstract serializeErrorOutput(): unknown;
 }
