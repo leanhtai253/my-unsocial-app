@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
+import { UserDocument } from '../documents/UserDocument';
+import { User } from '../models';
 
-export const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true
@@ -10,3 +12,13 @@ export const userSchema = new mongoose.Schema({
     required: true
   }
 });
+
+userSchema.pre('save', async function (this: UserDocument, next) {
+  const existingUser = await User.findOne({ email: this.email });
+  if (existingUser) {
+    throw new Error('email already exists');
+  }
+  next();
+});
+
+export { userSchema };

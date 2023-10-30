@@ -1,6 +1,8 @@
 import express from 'express';
 import { json } from 'body-parser';
+import 'express-async-errors';
 import { signUpRouter } from './routes';
+import { errorHandler } from './middleware';
 
 const app = express();
 
@@ -8,8 +10,6 @@ app.use(json());
 
 app.use(signUpRouter);
 
-app.get('*', (req, res) => {
-  res.status(200).send({});
-});
+app.use(errorHandler);
 
 export default app;
